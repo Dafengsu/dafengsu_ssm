@@ -63,4 +63,9 @@ public class UserServiceImpl implements UserService {
         userDao.save(userInfo);
     }
 
+    @Override
+    public UserInfo findById(String id) throws Exception {
+        return userDao.findById(id);
+    }
+
 }

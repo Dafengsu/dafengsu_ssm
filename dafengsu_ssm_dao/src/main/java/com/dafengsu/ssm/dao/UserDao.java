@@ -26,5 +26,12 @@ public interface UserDao {
             " VALUES(#{email},#{username},#{password},#{phoneNum},#{status})")
     void save(UserInfo userInfo) throws Exception;
 
+    @Select("SELECT * FROM USERS WHERE ID = #{id}")
+    @Results({
+            @Result(id = true, column = "id", property = "id"),
+            @Result(property = "roles",column = "id",javaType = List.class,
+                    many = @Many(select = "com.dafengsu.ssm.dao.RoleDao.findRolesByUserId"))
+    })
+    UserInfo findById(String id) throws Exception;
 
 }
