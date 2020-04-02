@@ -1,0 +1,6 @@
+# Project exclude paths
+/dafengsu_ssm_dao/target/
+/dafengsu_ssm_domain/target/
+/dafengsu_ssm_service/target/
+/dafengsu_ssm_utils/target/
+/dafengsu_ssm_web/target/

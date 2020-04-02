@@ -1,10 +1,7 @@
 package com.dafengsu.ssm.dao;
 
 import com.dafengsu.ssm.domain.UserInfo;
-import org.apache.ibatis.annotations.Many;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -21,4 +18,13 @@ public interface UserDao {
             many = @Many(select = "com.dafengsu.ssm.dao.RoleDao.findRolesByUserId"))
     })
     UserInfo findByUserName(String username) throws Exception;
+
+    @Select("SELECT * FROM USERS")
+    List<UserInfo> findAll() throws Exception;
+
+    @Insert("INSERT INTO USERS(EMAIL, USERNAME, PASSWORD, PHONENUM, STATUS)" +
+            " VALUES(#{email},#{username},#{password},#{phoneNum},#{status})")
+    void save(UserInfo userInfo) throws Exception;
+
+
 }
