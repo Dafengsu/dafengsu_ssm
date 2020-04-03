@@ -1,7 +1,9 @@
 package com.dafengsu.ssm.dao;
 
+import com.dafengsu.ssm.domain.Role;
 import com.dafengsu.ssm.domain.UserInfo;
 import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -34,4 +36,15 @@ public interface UserDao {
     })
     UserInfo findById(String id) throws Exception;
 
+    @Delete("DELETE FROM USERS_ROLE WHERE USERID = #{id}")
+    void deleteFromUser_RoleByUserId(String id) throws Exception;
+
+    @Delete("DELETE FROM USERS WHERE ID = #{id}")
+    void deleteById(String id) throws Exception;
+
+    @Select("SELECT * FROM ROLE WHERE ID NOT IN (SELECT ROLEID FROM USERS_ROLE WHERE USERID = #{id})")
+    List<Role> findOtherRoles(String id) throws Exception;
+
+    @Insert("INSERT INTO USERS_ROLE VALUES (#{userId},#{roleId})")
+    void addRoleToUser(@Param("userId") String userId, @Param("roleId") String roleId) throws Exception;
 }

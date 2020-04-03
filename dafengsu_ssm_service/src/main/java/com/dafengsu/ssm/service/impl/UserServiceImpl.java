@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,7 @@ import java.util.Objects;
  * @date 2020/4/2
  */
 @Service("userService")
+@Transactional
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
@@ -66,6 +68,24 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserInfo findById(String id) throws Exception {
         return userDao.findById(id);
+    }
+
+    @Override
+    public void deleteById(String id) throws Exception {
+        userDao.deleteFromUser_RoleByUserId(id);
+        userDao.deleteById(id);
+    }
+
+    @Override
+    public List<Role> findOtherRoles(String id) throws Exception {
+        return userDao.findOtherRoles(id);
+    }
+
+    @Override
+    public void addRoleToUser(String userId, String[] roleIds) throws Exception {
+        for (String roleId : roleIds) {
+            userDao.addRoleToUser(userId, roleId);
+        }
     }
 
 }
